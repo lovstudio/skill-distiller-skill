@@ -90,7 +90,7 @@ Git 历史只是线索。补充用户提供的复盘、验收记录、失败日�
 
 ### Step 5: 交接实现
 
-用户选择“创建”的蓝图后，交给 `lovstudio-skill-creator`：它负责实现、校验和本地安装。用户要求上架时，再交给 `lovstudio-skill-publish`。
+用户选择“创建”的蓝图后，交给 `lovstudio-skill-creator`：它负责实现、校验和本地安装。用户要求上架时，再交给 `lovstudio-skill-publisher`。
 
 ## Dependencies
 
