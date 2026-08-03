@@ -1,112 +1,98 @@
 ---
-name: lovstudio-skill-discovery
+name: lovstudio-distill-to-skill
 description: >
-  从项目历史、问题记录和重复交付中识别值得沉淀的 Agent Skill，输出带证据、优先级、边界和验收标准的候选清单；适用于“梳理 skill”“提炼可复用能力”或 “discover reusable skills”。
+  将项目经验、故障复盘和已验证流程蒸馏为可创建的 Agent Skill 蓝图，明确用户结果、触发边界、私有信息边界与验收方式；适用于“把经验蒸馏成 skill”或 “distill experience into a skill”。
 license: MIT
 metadata:
   author: lovstudio
-  version: "0.1.0"
+  version: "0.2.0"
   tags:
-    - skill-discovery
-    - knowledge-distillation
-    - productization
+    - distillation
+    - skill-blueprint
+    - knowledge-productization
     - project-history
-  compatibility: "Python 3.8+; git is optional but enables history evidence."
+  compatibility: "Python 3.8+; git is optional for source-evidence collection."
   dependencies: []
 ---
 
-# lovstudio-skill-discovery — 从经验发现可复用能力
+# lovstudio-distill-to-skill — 将经验变成可创建的 Skill
 
-把项目中反复出现、代价高或已经验证有效的解决过程，转化为一份可决策的 Skill 候选地图。输出面向产品和交付，而非复述内部聊天、私人背景或一次性细节。
+这不是泛泛寻找机会，而是把已经发生过的工作蒸馏成稳定、可移植且可验收的能力契约。最终产物是 **Skill 蓝图**：它足以交给 `lovstudio-skill-creator` 落地，却不泄漏人名、项目代号、私有路径、密钥或聊天背景。
 
 ## Triggers
 
 ### Activate when
 
-- 用户说“梳理一下哪些可以做成 skill”“把这段开发经验沉淀成 Skill”或“找出值得复用的能力”。
-- 用户提供一个仓库、项目历史、事故复盘、需求记录或多轮任务记录，希望提炼可发布的技能候选。
-- Use this when the user says “discover reusable skills”, “turn project history into skills”, or “find skill opportunities”.
+- 用户说“把这段经验蒸馏成 Skill”“把 Yoda 的做法沉淀下来”或“把这次复盘做成可复用能力”。
+- 用户提供项目历史、事故复盘、连续需求或真实交付，想从中抽出一项可复用 Skill。
+- Use this when the user says “distill experience into a skill”, “turn this workflow into a reusable skill”, or “skill distillation”.
 
 ### Do not activate when
 
-- 用户已经明确要创建某一个 Skill：交给 `lovstudio-skill-creator` 实现、校验和本地安装。
-- 用户要求优化既有 Skill：交给 `lovstudio-skill-optimizer`。
-- 用户只需要复盘文章、团队知识库或博客稿件，不需要 Skill 候选与产品边界。
+- 用户已明确要实现某一个 Skill：交给 `lovstudio-skill-creator`。
+- 用户要优化、修订或升级已有 Skill：交给 `lovstudio-skill-optimizer`。
+- 用户只要保存一条项目约定到系统提示词或项目说明：交给 `lovstudio-distill-to-system`。
 
 ## Workflow (MANDATORY)
 
-### Step 0: 定义扫描范围
+### Step 0: 选择待蒸馏的经验单元
 
-1. 优先使用用户提供的项目路径、历史记录和明确问题；缺失时以当前项目为范围。
-2. 把人名、客户信息、聊天背景和临时调试细节当作内部证据，默认不写入候选的用户可见名称、描述或示例。
-3. 明确输出是“候选地图”，不是自动创建或发布；只有用户确认某项后才进入 `lovstudio-skill-creator`。
+以一个完整的“问题 → 判断 → 行动 → 验证”闭环为单位。优先选择经过真实运行、发布、安装或用户验收的经验；单次灵感、纯技术兴趣或只含内部背景的内容暂不提升为 Skill。
 
-### Step 1: 采集可验证证据
+把人名、客户信息、项目代号、私有路径、访问凭据和临时聊天细节留在证据层，默认不进入蓝图的名称、描述和示例。
 
-运行证据扫描器，先得到可复核的线索，而非凭印象罗列：
+### Step 1: 收集原始证据（辅助，不是主产物）
+
+针对仓库或材料创建可回看的证据摘要：
 
 ```bash
-python3 "$SKILL_DIR/scripts/scan_project_evidence.py" PROJECT_PATH \
-  --output skill-discovery-evidence.md
+python3 "$SKILL_DIR/scripts/collect-source-evidence.py" PROJECT_PATH \
+  --output skill-distillation-evidence.md
 ```
 
-若范围并非 Git 仓库，扫描 README、设计文档、故障记录、任务清单与用户提供的材料；清楚标注没有原始证据支撑的判断。
+Git 历史只是线索。补充用户提供的复盘、验收记录、失败日志与行为变化；没有证据支撑的判断要标注为假设。
 
-参照 [证据信号](references/evidence-signals.md) 将线索归为：反复摩擦、稳定方案、跨项目需求、发布/验收关卡和高价值用户结果。
+### Step 2: 蒸馏不变量
 
-### Step 2: 形成候选，而非把每个任务都命名为 Skill
+使用 [蒸馏透镜](references/distillation-lens.md)，从原始材料中抽出：
 
-每个候选都要回答：
+1. **用户真正要达成的结果**，而不是内部实现动作；
+2. **稳定的判断顺序**：哪些步骤总是成立，哪些是可配置的变体；
+3. **失败恢复与验收**：如何知道“真的成功”，而不是只看到提示、编译或静态检查；
+4. **边界**：哪些输入不适用，哪些逻辑、数据或凭据需要保留为私有配置；
+5. **最小复用单元**：应是 Single Skill、带确定性脚本的 Skill，还是由独立阶段组成的 Skill Kit。
 
-1. **用户结果**：用户获得什么确定结果？
-2. **触发边界**：哪些输入适合，哪些相邻任务不适合？
-3. **可复用核心**：流程、检查表、脚本、模板或决策规则是什么？
-4. **证据**：至少一条来自项目历史、重复请求或已验证结果的证据。
-5. **交付形态**：Instruction-only、带 Python CLI 的 Single Skill，或有明确独立阶段的 Skill Kit。
+不要把一次性动作逐条照抄成 Skill；合并同一用户结果下的不同渠道、模型、项目路径或工具实现。
 
-禁止把单次文件名、特定人物、项目代号或内部上下文直接变成公开候选名称。
+### Step 3: 编写 Skill 蓝图
 
-### Step 3: 评分与排序
+按 [Skill 蓝图模板](references/skill-blueprint.md) 交付一份中文蓝图。每份蓝图必须包含：
 
-按 [候选评分卡](references/candidate-scorecard.md) 给每项 1–5 分，计算总分并排序。高分并不自动创建：还要检查是否已有等价 Skill、是否可定义验收、以及是否会把私有逻辑或凭据带入可分发内容。
+- 面向用户的名称与一句话承诺；
+- 触发语句与至少一个明确的不触发场景；
+- 输入、输出、核心流程与可配置项；
+- 真实验收信号、常见失败与恢复路径；
+- 私有信息边界；
+- 一条或多条可回溯的证据摘要。
 
-合并范围相同的候选；将只差具体项目参数的需求收敛成一项可配置的通用能力。
+如有多个经验单元，按“同一结果是否共享上下文和验收”决定合并或拆分，最多推荐 3–7 个蓝图。
 
-### Step 4: 交付候选地图
+### Step 4: 做提升决策
 
-以中文输出以下结构，默认保留前 3–7 项：
+对每项蓝图给出一个结论：
 
-```markdown
-# Skill 候选地图：<项目或主题>
+- **创建**：用户结果、边界、验收与证据均清楚；
+- **继续蒸馏**：缺少真实验收、核心判断或可移植边界；
+- **合并**：只是另一个渠道/参数/阶段，不该成为独立 Skill；
+- **归档**：只能服务一次性项目上下文，保留为项目文档即可。
 
-## 优先创建
-| 优先级 | 候选名称 | 用户结果 | 证据 | 形态 | 验收标准 |
-| --- | --- | --- | --- | --- | --- |
+使用 [提升检查](references/distillation-lens.md#提升检查) 说明理由。分数只用于辅助排序，结论以可交付性为准。
 
-## 暂缓或合并
-| 候选 | 原因 | 后续触发条件 |
-| --- | --- | --- |
+### Step 5: 交接实现
 
-## 创建建议
-- 推荐先创建：<候选>
-- 原因：<价值、复用度、可验收性>
-- 下一步：使用 `lovstudio-skill-creator` 创建并本地安装。
-```
-
-每一项用面向终端用户的中文名称和一句话价值说明；不把证据中的私人信息带入表格。
-
-### Step 5: 创建前质量关
-
-在建议创建某项前确认：
-
-- 至少有一个可复现的触发场景和一个不触发的相邻场景；
-- 有清楚的输入、输出和验收信号；
-- 已识别用户配置、外部凭据和私有逻辑的边界；
-- 与已有 Skill 不重叠，或已定义合并方式。
-
-用户选择候选后，交接给 `lovstudio-skill-creator`；用户要求分发时，再交接给 `lovstudio-skill-publish`。
+用户选择“创建”的蓝图后，交给 `lovstudio-skill-creator`：它负责实现、校验和本地安装。用户要求上架时，再交给 `lovstudio-skill-publish`。
 
 ## Dependencies
 
 - Python 3.8+（仅标准库）
-- Git（可选，用于提交与历史证据扫描）
+- Git（可选，用于仓库历史证据）

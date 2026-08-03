@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create a compact, reviewable evidence summary for Skill discovery."""
+"""Collect a compact, reviewable source summary for Skill distillation."""
 
 from __future__ import annotations
 
@@ -86,9 +86,9 @@ def render(project: Path) -> str:
     git_enabled = is_git_repository(project)
     subjects, topic_counts = commit_topics(project) if git_enabled else ([], [])
     lines = [
-        f"# Skill Discovery Evidence: {project.name}",
+        f"# Skill Distillation Evidence: {project.name}",
         "",
-        "这是一份证据摘要，不是候选清单。请结合实际用户结果和产品边界做判断。",
+        "这是一份源材料摘要，不是 Skill 蓝图。请先蒸馏稳定流程、边界与验收。",
         "",
         "## Scope",
         "",
@@ -109,7 +109,7 @@ def render(project: Path) -> str:
         lines.extend(["## Documentation Evidence", "", *docs, ""])
     if not subjects and not docs:
         lines.extend([
-            "## Evidence Gap",
+            "## Source Gap",
             "",
             "- 未找到足够的 Git 或 Markdown 证据；请补充事故记录、重复需求或真实验收材料。",
             "",

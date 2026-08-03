@@ -1,36 +1,36 @@
-# lovstudio-skill-discovery
+# lovstudio-distill-to-skill
 
-![Version](https://img.shields.io/badge/version-0.1.0-CC785C)
+![Version](https://img.shields.io/badge/version-0.2.0-CC785C)
 
-从项目历史与重复交付中发现值得产品化的 Agent Skill，并输出有证据、优先级和验收标准的候选地图。
+将已经验证过的项目经验蒸馏成可实现的 Agent Skill 蓝图，而不是停留在复盘或机会清单。
 
 ## 本地安装
 
 ```bash
-ln -s "$(pwd)/skill-discovery-skill" \
-  "$HOME/.codex/skills/lovstudio-skill-discovery"
+ln -s "$(pwd)/distill-to-skill" \
+  "$HOME/.codex/skills/lovstudio-distill-to-skill"
 ```
 
 ## 使用
 
-- “梳理一下这个仓库中哪些经验应该做成 Skill。”
-- “从最近的更新、重启和 AI 集成工作里，发现可复用的能力。”
-- “Discover reusable skills from this project history.”
+- “把 Yoda 的增量更新经验蒸馏成一个 Skill 蓝图。”
+- “从这次重启机制的复盘中，提炼稳定流程、验收与边界。”
+- “Distill this project workflow into a reusable skill.”
 
-可先生成证据摘要：
+如需先收集仓库线索：
 
 ```bash
-python3 scripts/scan_project_evidence.py /path/to/project \
-  --output skill-discovery-evidence.md
+python3 scripts/collect-source-evidence.py /path/to/project \
+  --output skill-distillation-evidence.md
 ```
 
-随后由 Agent 结合项目上下文输出候选地图；候选获确认后，使用 `lovstudio-skill-creator` 创建实现。
+输出的蓝图经确认后，使用 `lovstudio-skill-creator` 实现并本地安装。
 
 ## 质量门
 
 ```bash
 python3 scripts/validate_skill.py .
-python3 scripts/scan_project_evidence.py . --output /tmp/skill-discovery-evidence.md
+python3 scripts/collect-source-evidence.py . --output /tmp/skill-distillation-evidence.md
 ```
 
 ## 依赖
