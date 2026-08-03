@@ -1,14 +1,14 @@
-# lovstudio-distill-to-skill
+# lovstudio-skill-distiller
 
-![Version](https://img.shields.io/badge/version-0.2.0-CC785C)
+![Version](https://img.shields.io/badge/version-0.3.0-CC785C)
 
 将已经验证过的项目经验蒸馏成可实现的 Agent Skill 蓝图，而不是停留在复盘或机会清单。
 
 ## 本地安装
 
 ```bash
-ln -s "$(pwd)/distill-to-skill" \
-  "$HOME/.codex/skills/lovstudio-distill-to-skill"
+ln -s "$(pwd)/skill-distiller-skill" \
+  "$HOME/.codex/skills/lovstudio-skill-distiller"
 ```
 
 ## 使用

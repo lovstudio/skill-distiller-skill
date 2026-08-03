@@ -1,11 +1,11 @@
 ---
-name: lovstudio-distill-to-skill
+name: lovstudio-skill-distiller
 description: >
-  将项目经验、故障复盘和已验证流程蒸馏为可创建的 Agent Skill 蓝图，明确用户结果、触发边界、私有信息边界与验收方式；适用于“把经验蒸馏成 skill”或 “distill experience into a skill”。
+  Use when 用户要将项目经验、故障复盘和已验证流程蒸馏为可创建的 Agent Skill 蓝图，明确用户结果、触发边界、私有信息边界与验收方式；触发词包括“把经验蒸馏成 skill”与 “distill experience into a skill”。
 license: MIT
 metadata:
   author: lovstudio
-  version: "0.2.0"
+  version: "0.3.0"
   tags:
     - distillation
     - skill-blueprint
@@ -15,7 +15,7 @@ metadata:
   dependencies: []
 ---
 
-# lovstudio-distill-to-skill — 将经验变成可创建的 Skill
+# lovstudio-skill-distiller — 将经验变成可创建的 Skill
 
 这不是泛泛寻找机会，而是把已经发生过的工作蒸馏成稳定、可移植且可验收的能力契约。最终产物是 **Skill 蓝图**：它足以交给 `lovstudio-skill-creator` 落地，却不泄漏人名、项目代号、私有路径、密钥或聊天背景。
 
