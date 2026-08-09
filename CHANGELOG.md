@@ -1,10 +1,10 @@
 # Changelog
 
-## [0.3.0] - 2026-08-03
+## [0.3.1] - 2026-08-09
 
 ### Added
 
-- 统一重命名为 lovstudio-skill-distiller
+- 统一重命名为 sgc-skill-distiller
 - 迁移本地安装名、源码目录与发布渠道标识
 
 ## 0.2.0
