@@ -1,16 +1,24 @@
 # Changelog
 
-## [0.3.1] - 2026-09-07
+## [0.4.1] - 2026-09-25
 
 ### Added
 
-- 统一展示名为「Skill 炼金师」，保持调用 ID 与能力契约。
+- 恢复被本地旧副本覆盖的上游 0.4.0 内容，并保留本地改动
+- 本地改动：统一重命名为 lov-skill-distiller
+- 本地改动：迁移本地安装名、源码目录与发布渠道标识
 
-## [0.3.0] - 2026-08-03
+## [0.4.0] - 2026-08-24
 
 ### Added
 
-- 统一重命名为 lov-skill-distiller
+- add the shared feedback-classification and approval-invalidation gate used by every LovStudio Skill
+
+## [0.3.1] - 2026-08-09
+
+### Added
+
+- 统一重命名为 sgc-skill-distiller
 - 迁移本地安装名、源码目录与发布渠道标识
 
 ## 0.2.0
